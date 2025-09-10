@@ -33,51 +33,85 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Download button click handler
+    // Download button setup - detect OS and set direct download link
     const downloadButton = document.querySelector('.download-button');
     if (downloadButton) {
-        downloadButton.addEventListener('click', function() {
-            detectAndDownload();
-        });
+        setupDownloadButton();
     }
 
-    // Auto-detect user's OS and provide appropriate download
-    function detectAndDownload() {
+    async function setupDownloadButton() {
         const platform = navigator.platform.toLowerCase();
         const userAgent = navigator.userAgent.toLowerCase();
         
         let downloadUrl = '';
         let platformName = '';
+        let isAvailable = true;
+        
+        // Fetch the latest release info from GitHub API
+        let latestLauncherUrl = null;
+        try {
+            const response = await fetch('https://api.github.com/repos/BrianSMitchell/attrition-desktop/releases/latest');
+            const releaseData = await response.json();
+            
+            // Find the launcher executable in the assets
+            const launcherAsset = releaseData.assets.find(asset => 
+                asset.name.includes('Launcher-Setup') && asset.name.endsWith('.exe')
+            );
+            
+            if (launcherAsset) {
+                latestLauncherUrl = launcherAsset.browser_download_url;
+                console.log('Latest launcher URL:', latestLauncherUrl);
+            }
+        } catch (error) {
+            console.log('Could not fetch latest release info, using fallback URL');
+        }
         
         if (userAgent.includes('win') || platform.includes('win')) {
-            downloadUrl = '/downloads/attrition-launcher-windows.exe';
+            // Use dynamically fetched URL or fallback to latest endpoint
+            downloadUrl = latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-desktop/releases/latest/download/Attrition%20Launcher-Setup-1.0.7.exe';
             platformName = 'Windows';
+            isAvailable = true;
         } else if (userAgent.includes('mac') || platform.includes('mac')) {
-            downloadUrl = '/downloads/attrition-launcher-macos.dmg';
+            downloadUrl = 'https://github.com/BrianSMitchell/attrition-desktop/releases/latest/download/Attrition-Launcher.dmg';
             platformName = 'macOS';
+            isAvailable = false; // Coming soon
         } else if (userAgent.includes('linux') || platform.includes('linux')) {
-            downloadUrl = '/downloads/attrition-launcher-linux.AppImage';
+            downloadUrl = 'https://github.com/BrianSMitchell/attrition-desktop/releases/latest/download/Attrition-Launcher.AppImage';
             platformName = 'Linux';
+            isAvailable = false; // Coming soon
         } else {
-            // Fallback - show manual selection
-            showDownloadOptions();
+            // Unknown platform - show modal on click
+            downloadButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                showDownloadOptions(latestLauncherUrl);
+            });
             return;
         }
         
-        // Start download
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = '';
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // Show download started message
-        showDownloadMessage(platformName);
+        if (isAvailable) {
+            // Convert button to direct download link
+            downloadButton.href = downloadUrl;
+            downloadButton.target = '_blank';
+            downloadButton.download = '';
+            downloadButton.textContent = `Download Launcher for ${platformName}`;
+            
+            // Add click event for download tracking
+            downloadButton.addEventListener('click', function() {
+                showDownloadMessage(platformName);
+            });
+        } else {
+            // Show coming soon message on click
+            downloadButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                showComingSoonMessage(platformName);
+            });
+            downloadButton.textContent = `${platformName} Version Coming Soon`;
+            downloadButton.style.background = '#666';
+            downloadButton.style.cursor = 'not-allowed';
+        }
     }
     
-    function showDownloadOptions() {
+    function showDownloadOptions(latestLauncherUrl = null) {
         const modal = document.createElement('div');
         modal.style.cssText = `
             position: fixed;
@@ -104,30 +138,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h3 style="color: var(--primary); margin-top: 0;">Download Attrition Launcher</h3>
                 <p style="color: var(--text); margin-bottom: 20px;">Choose your operating system:</p>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <a href="/downloads/attrition-launcher-windows.exe" style="
+<a href=\"${latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-desktop/releases/latest/download/Attrition%20Launcher-Setup-1.0.7.exe'}\" target=\"_blank\" style=\"
                         background: var(--primary);
                         color: var(--bg);
                         padding: 12px 16px;
                         text-decoration: none;
                         border-radius: 6px;
                         font-weight: bold;
-                    ">🖥️ Windows (64-bit)</a>
-                    <a href="/downloads/attrition-launcher-macos.dmg" style="
-                        background: var(--primary);
-                        color: var(--bg);
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    ">🖥️ Windows (64-bit) <span style="font-size: 0.8em; background: rgba(0,255,0,0.2); padding: 2px 6px; border-radius: 3px;">Available</span></a>
+                    <div onclick="showComingSoonMessage('macOS')" style="
+                        background: #666;
+                        color: #ccc;
                         padding: 12px 16px;
-                        text-decoration: none;
                         border-radius: 6px;
                         font-weight: bold;
-                    ">🍎 macOS (Intel & Apple Silicon)</a>
-                    <a href="/downloads/attrition-launcher-linux.AppImage" style="
-                        background: var(--primary);
-                        color: var(--bg);
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    ">🍎 macOS (Intel & Apple Silicon) <span style="font-size: 0.8em; background: rgba(255,165,0,0.3); padding: 2px 6px; border-radius: 3px;">Coming Soon</span></div>
+                    <div onclick="showComingSoonMessage('Linux')" style="
+                        background: #666;
+                        color: #ccc;
                         padding: 12px 16px;
-                        text-decoration: none;
                         border-radius: 6px;
                         font-weight: bold;
-                    ">🐧 Linux (AppImage)</a>
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    ">🐧 Linux (AppImage) <span style="font-size: 0.8em; background: rgba(255,165,0,0.3); padding: 2px 6px; border-radius: 3px;">Coming Soon</span></div>
                 </div>
                 <button onclick="this.parentElement.parentElement.remove()" style="
                     margin-top: 16px;
@@ -176,6 +219,43 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         `;
         document.head.appendChild(style);
+    }
+    
+    function showComingSoonMessage(platform) {
+        const message = document.createElement('div');
+        message.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        message.textContent = `${platform} version coming soon! Currently Windows only.`;
+        document.body.appendChild(message);
+        
+        // Remove after 5 seconds (longer for coming soon)
+        setTimeout(() => {
+            message.remove();
+        }, 5000);
+        
+        // Add slide in animation if not already added
+        if (!document.head.querySelector('style[data-animation="slideIn"]')) {
+            const style = document.createElement('style');
+            style.setAttribute('data-animation', 'slideIn');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
     }
 
     // Add some interactive particle effects to the space animation
