@@ -60,15 +60,18 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (launcherAsset) {
                 latestLauncherUrl = launcherAsset.browser_download_url;
-                console.log('Latest launcher URL:', latestLauncherUrl);
+                console.log('✅ Found latest launcher:', launcherAsset.name);
+                console.log('📦 Download URL:', latestLauncherUrl);
+            } else {
+                console.log('❌ No launcher asset found in release');
             }
         } catch (error) {
-            console.log('Could not fetch latest release info, using fallback URL');
+            console.log('Could not fetch latest release info, using fallback URL. Error:', error);
         }
         
         if (userAgent.includes('win') || platform.includes('win')) {
-            // Use dynamically fetched URL or fallback to latest launcher release
-            downloadUrl = latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-launcher/releases/latest/download/Attrition.Launcher-Setup-1.1.1.exe';
+            // Use dynamically fetched URL or fallback to latest launcher release  
+            downloadUrl = latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-launcher/releases/download/v1.1.1/Attrition.Launcher-Setup-1.1.1.exe';
             platformName = 'Windows';
             isAvailable = true;
         } else if (userAgent.includes('mac') || platform.includes('mac')) {
@@ -138,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h3 style="color: var(--primary); margin-top: 0;">Download Attrition Launcher</h3>
                 <p style="color: var(--text); margin-bottom: 20px;">Choose your operating system:</p>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-<a href=\"${latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-launcher/releases/latest/download/Attrition.Launcher-Setup-1.1.1.exe'}\" target=\"_blank\" style=\"
+<a href=\"${latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-launcher/releases/download/v1.1.1/Attrition.Launcher-Setup-1.1.1.exe'}\" target=\"_blank\" style=\"
                         background: var(--primary);
                         color: var(--bg);
                         padding: 12px 16px;
