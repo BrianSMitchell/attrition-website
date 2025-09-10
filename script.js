@@ -75,11 +75,11 @@ document.addEventListener('DOMContentLoaded', function() {
             platformName = 'Windows';
             isAvailable = true;
         } else if (userAgent.includes('mac') || platform.includes('mac')) {
-            downloadUrl = 'https://github.com/BrianSMitchell/attrition-desktop/releases/latest/download/Attrition-Launcher.dmg';
+            downloadUrl = 'https://github.com/BrianSMitchell/attrition-launcher/releases/latest/download/Attrition-Launcher.dmg';
             platformName = 'macOS';
             isAvailable = false; // Coming soon
         } else if (userAgent.includes('linux') || platform.includes('linux')) {
-            downloadUrl = 'https://github.com/BrianSMitchell/attrition-desktop/releases/latest/download/Attrition-Launcher.AppImage';
+            downloadUrl = 'https://github.com/BrianSMitchell/attrition-launcher/releases/latest/download/Attrition-Launcher.AppImage';
             platformName = 'Linux';
             isAvailable = false; // Coming soon
         } else {
