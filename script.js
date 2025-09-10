@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Fetch the latest release info from GitHub API
         let latestLauncherUrl = null;
         try {
-            const response = await fetch('https://api.github.com/repos/BrianSMitchell/attrition-desktop/releases/latest');
+            const response = await fetch('https://api.github.com/repos/BrianSMitchell/attrition-launcher/releases/latest');
             const releaseData = await response.json();
             
             // Find the launcher executable in the assets
@@ -67,8 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (userAgent.includes('win') || platform.includes('win')) {
-            // Use dynamically fetched URL or fallback to specific v1.1.1 launcher
-            downloadUrl = latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-desktop/releases/download/v1.1.1-launcher/Attrition.Launcher-Setup-1.1.1.exe';
+            // Use dynamically fetched URL or fallback to latest launcher release
+            downloadUrl = latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-launcher/releases/latest/download/Attrition.Launcher-Setup-1.1.1.exe';
             platformName = 'Windows';
             isAvailable = true;
         } else if (userAgent.includes('mac') || platform.includes('mac')) {
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h3 style="color: var(--primary); margin-top: 0;">Download Attrition Launcher</h3>
                 <p style="color: var(--text); margin-bottom: 20px;">Choose your operating system:</p>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-<a href=\"${latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-desktop/releases/download/v1.1.1-launcher/Attrition.Launcher-Setup-1.1.1.exe'}\" target=\"_blank\" style=\"
+<a href=\"${latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-launcher/releases/latest/download/Attrition.Launcher-Setup-1.1.1.exe'}\" target=\"_blank\" style=\"
                         background: var(--primary);
                         color: var(--bg);
                         padding: 12px 16px;
