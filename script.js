@@ -51,22 +51,19 @@ document.addEventListener('DOMContentLoaded', function() {
         let latestLauncherUrl = null;
         try {
             const response = await fetch('https://api.github.com/repos/BrianSMitchell/attrition-launcher/releases/latest');
+            if (!response.ok) throw new Error('Failed to fetch releases');
             const releaseData = await response.json();
             
             // Find the launcher executable in the assets
-            const launcherAsset = releaseData.assets.find(asset => 
+            const launcherAsset = releaseData.assets?.find(asset => 
                 asset.name.includes('Launcher-Setup') && asset.name.endsWith('.exe')
             );
             
             if (launcherAsset) {
                 latestLauncherUrl = launcherAsset.browser_download_url;
-                console.log('✅ Found latest launcher:', launcherAsset.name);
-                console.log('📦 Download URL:', latestLauncherUrl);
-            } else {
-                console.log('❌ No launcher asset found in release');
             }
         } catch (error) {
-            console.log('Could not fetch latest release info, using fallback URL. Error:', error);
+            // Silently fail - will use fallback URL
         }
         
         if (userAgent.includes('win') || platform.includes('win')) {
@@ -367,5 +364,4 @@ downloadUrl = latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-
         }
     });
 
-    console.log('🚀 Attrition webpage initialized');
 });
