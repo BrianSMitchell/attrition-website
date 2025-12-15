@@ -1,4 +1,4 @@
-// Space Empire temporary webpage scripts
+// Attrition Game Website Scripts
 document.addEventListener('DOMContentLoaded', function() {
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (userAgent.includes('win') || platform.includes('win')) {
             // Use dynamically fetched URL or fallback to latest launcher release  
-downloadUrl = latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-launcher/releases/download/v1.1.3/Attrition%20Launcher-Setup-1.1.3.exe';
+            downloadUrl = latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-launcher/releases/download/v1.1.3/Attrition%20Launcher-Setup-1.1.3.exe';
             platformName = 'Windows';
             isAvailable = true;
         } else if (userAgent.includes('mac') || platform.includes('mac')) {
@@ -138,7 +138,7 @@ downloadUrl = latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-
                 <h3 style="color: var(--primary); margin-top: 0;">Download Attrition Launcher</h3>
                 <p style="color: var(--text); margin-bottom: 20px;">Choose your operating system:</p>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-<a href=\"${latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-launcher/releases/download/v1.1.3/Attrition%20Launcher-Setup-1.1.3.exe'}\" target=\"_blank\" style=\"
+                    <a href="${latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-launcher/releases/download/v1.1.3/Attrition%20Launcher-Setup-1.1.3.exe'}" target="_blank" style="
                         background: var(--primary);
                         color: var(--bg);
                         padding: 12px 16px;
@@ -312,29 +312,31 @@ downloadUrl = latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-
 
     // Animate stats on scroll
     const stats = document.querySelectorAll('.stat-number');
-    const observerOptions = {
-        threshold: 0.7,
-        rootMargin: '0px 0px -100px 0px'
-    };
+    if (stats.length > 0) {
+        const observerOptions = {
+            threshold: 0.7,
+            rootMargin: '0px 0px -100px 0px'
+        };
 
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const stat = entry.target;
-                const text = stat.textContent;
-                
-                // Simple counter animation for numbers
-                if (text.includes('+')) {
-                    const number = parseInt(text.replace(/[^\d]/g, ''));
-                    animateCounter(stat, 0, number, text.replace(/\d+/g, ''));
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const stat = entry.target;
+                    const text = stat.textContent;
+                    
+                    // Simple counter animation for numbers
+                    if (text.includes('+')) {
+                        const number = parseInt(text.replace(/[^\d]/g, ''));
+                        animateCounter(stat, 0, number, text.replace(/\d+/g, ''));
+                    }
+                    
+                    statsObserver.unobserve(stat);
                 }
-                
-                statsObserver.unobserve(stat);
-            }
-        });
-    }, observerOptions);
+            });
+        }, observerOptions);
 
-    stats.forEach(stat => statsObserver.observe(stat));
+        stats.forEach(stat => statsObserver.observe(stat));
+    }
 
     function animateCounter(element, start, end, suffix) {
         const duration = 2000;
@@ -363,5 +365,4 @@ downloadUrl = latestLauncherUrl || 'https://github.com/BrianSMitchell/attrition-
             heroVisual.style.transform = `translateY(${scrolled * 0.15}px)`;
         }
     });
-
 });

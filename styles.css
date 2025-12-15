@@ -1,4 +1,4 @@
-/* Space Empire temporary webpage styles */
+/* Attrition - Deep Space Strategy Game Styles */
 :root {
   --bg: #080b16;
   --bg-accent: #0e1424;
@@ -65,6 +65,7 @@ nav {
   text-decoration: none;
   padding: 8px 10px;
   border-radius: 6px;
+  transition: background 0.3s ease;
 }
 
 .nav-links a:hover {
@@ -91,6 +92,13 @@ nav {
   max-width: 52ch;
 }
 
+.hero-tagline {
+  color: var(--accent);
+  font-size: 0.95em;
+  font-weight: 600;
+  margin: 16px 0;
+}
+
 .cta-button {
   margin-top: 14px;
   padding: 12px 18px;
@@ -101,11 +109,14 @@ nav {
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 10px 24px rgba(122,162,255,0.25);
+  transition: filter 0.3s ease;
 }
 
-.cta-button:hover { filter: brightness(1.05); }
+.cta-button:hover { 
+  filter: brightness(1.05);
+}
 
-/* Space animation placeholder */
+/* Space animation */
 .space-animation {
   height: 260px;
   background: radial-gradient(circle at 30% 20%, rgba(122,162,255,0.25) 0, transparent 40%),
@@ -138,25 +149,105 @@ nav {
   to   { transform: translateY(10%); }
 }
 
-/* Sections */
+/* Container */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-.features, .gameplay, .download { margin: 60px 0; }
 
-h2 { font-size: 28px; margin-bottom: 16px; }
+/* Game Loop Section */
+.game-loop {
+  margin: 60px 0;
+  background: rgba(14, 20, 36, 0.3);
+  padding: 40px 0;
+  border-top: 1px solid rgba(122,162,255,0.15);
+  border-bottom: 1px solid rgba(122,162,255,0.15);
+}
+
+.game-loop h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.loop-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.loop-step {
+  background: linear-gradient(180deg, rgba(20,32,64,0.5), rgba(14,20,36,0.7));
+  border: 1px solid rgba(122,162,255,0.2);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: var(--bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 24px;
+  margin: 0 auto 12px;
+}
+
+.loop-step h3 {
+  margin: 12px 0;
+  color: var(--accent);
+  font-size: 16px;
+}
+
+.loop-step p {
+  color: var(--muted);
+  font-size: 0.9em;
+  margin: 0;
+}
+
+/* Features Section */
+.features {
+  margin: 60px 0;
+}
+
+.features h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
 }
 
 .feature-card {
   background: linear-gradient(180deg, rgba(20,32,64,0.6), rgba(14,20,36,0.8));
   border: 1px solid rgba(122,162,255,0.15);
   border-radius: 12px;
-  padding: 16px;
+  padding: 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(122,162,255,0.15);
+}
+
+.feature-card h3 {
+  color: var(--accent);
+  margin-top: 0;
+}
+
+.feature-card p {
+  color: var(--muted);
+  font-size: 0.95em;
+}
+
+/* Feature Icons */
 .feature-icon {
   width: 50px;
   height: 50px;
@@ -217,15 +308,163 @@ h2 { font-size: 28px; margin-bottom: 16px; }
   box-shadow: 16px 0 0 #7aa2ff;
 }
 
-.gameplay-content { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; }
+/* Why Different Section */
+.why-different {
+  margin: 60px 0;
+  background: rgba(14, 20, 36, 0.3);
+  padding: 40px 0;
+  border-top: 1px solid rgba(122,162,255,0.15);
+  border-bottom: 1px solid rgba(122,162,255,0.15);
+}
 
-.stat { background: rgba(14,20,36,0.7); border: 1px solid rgba(122,162,255,0.15); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
-.stat-number { font-weight: 800; font-size: 24px; color: var(--accent); }
-.stat-label { color: var(--muted); font-size: 12px; }
+.why-different h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
 
-.download .download-button {
+.difference-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.difference-card {
+  background: linear-gradient(180deg, rgba(22, 211, 230, 0.1), rgba(20, 32, 64, 0.2));
+  border: 1px solid rgba(22, 211, 230, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.difference-card h3 {
+  color: var(--accent);
+  margin-top: 0;
+}
+
+.difference-card p {
+  color: var(--muted);
+  font-size: 0.95em;
+}
+
+/* Progression Section */
+.progression {
+  margin: 60px 0;
+}
+
+.progression h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.progression-timeline {
+  display: grid;
+  gap: 20px;
+}
+
+.progression-stage {
+  background: linear-gradient(180deg, rgba(20,32,64,0.6), rgba(14,20,36,0.8));
+  border: 1px solid rgba(122,162,255,0.15);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.stage-header {
+  background: linear-gradient(90deg, rgba(122,162,255,0.15), rgba(22,211,230,0.1));
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(122,162,255,0.1);
+}
+
+.stage-header h3 {
+  margin: 0;
+  color: var(--accent);
+}
+
+.stage-time {
+  color: var(--muted);
+  font-size: 0.9em;
+}
+
+.stage-content {
+  padding: 20px;
+}
+
+.stage-content p {
+  color: var(--muted);
+  margin: 8px 0;
+}
+
+.stage-content strong {
+  color: var(--text);
+}
+
+.stage-content ul {
+  color: var(--muted);
+  margin: 12px 0;
+  padding-left: 20px;
+}
+
+.stage-content li {
+  margin: 6px 0;
+}
+
+/* FAQ Section */
+.faq {
+  margin: 60px 0;
+  background: rgba(14, 20, 36, 0.3);
+  padding: 40px 0;
+  border-top: 1px solid rgba(122,162,255,0.15);
+  border-bottom: 1px solid rgba(122,162,255,0.15);
+}
+
+.faq h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.faq-item {
+  background: linear-gradient(180deg, rgba(20,32,64,0.5), rgba(14,20,36,0.7));
+  border: 1px solid rgba(122,162,255,0.15);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.faq-item h3 {
+  color: var(--accent);
+  margin-top: 0;
+  font-size: 16px;
+}
+
+.faq-item p {
+  color: var(--muted);
+  font-size: 0.95em;
+  margin: 0;
+}
+
+/* Download Section */
+.download {
+  margin: 60px 0;
+  text-align: center;
+}
+
+.download h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.download-button {
   margin-top: 10px;
-  padding: 10px 14px;
+  padding: 12px 24px;
   background: linear-gradient(135deg, var(--accent), #39e2f1);
   color: #00131a;
   border: none;
@@ -235,13 +474,25 @@ h2 { font-size: 28px; margin-bottom: 16px; }
   text-decoration: none;
   display: inline-block;
   transition: all 0.3s ease;
+  font-size: 16px;
 }
 
-.download .download-button:hover {
+.download-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(22, 211, 230, 0.3);
 }
 
+.system-requirements {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 0.9em;
+}
+
+.system-requirements p {
+  margin: 8px 0;
+}
+
+/* Footer */
 footer {
   border-top: 1px solid rgba(122,162,255,0.15);
   margin-top: 60px;
@@ -252,7 +503,7 @@ footer {
 .footer-content {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 20px;
   margin-bottom: 16px;
@@ -261,6 +512,11 @@ footer {
 .footer-content p {
   margin: 0;
   color: var(--muted);
+}
+
+.footer-status {
+  font-size: 0.9em;
+  margin-top: 4px;
 }
 
 .footer-links {
@@ -282,27 +538,54 @@ footer {
   text-align: center;
   color: var(--muted);
   margin: 0;
+  font-size: 0.9em;
 }
 
+/* Responsive Design */
 @media (max-width: 600px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content h2 {
+    font-size: 32px;
+  }
+
+  .nav-links {
+    gap: 10px;
+  }
+
+  .nav-links a {
+    font-size: 0.9em;
+  }
+
+  .loop-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .difference-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .faq-grid {
+    grid-template-columns: 1fr;
+  }
+
   .footer-content {
     flex-direction: column;
     align-items: flex-start;
   }
-  
-  .hero {
-    grid-template-columns: 1fr;
+
+  .stage-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .gameplay-content {
-    grid-template-columns: 1fr;
-  }
-  
-  .nav-links {
-    gap: 10px;
-  }
-  
-  .nav-links a {
-    font-size: 0.9em;
+
+  .stage-time {
+    margin-top: 8px;
   }
 }
